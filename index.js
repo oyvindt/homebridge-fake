@@ -26,15 +26,16 @@ function FakeAccessory(log, config) {
 }
 
 FakeAccessory.prototype.getState = function(callback) {
-  this.log("Getting current state...");
+  this.log("Getting current state...: " + this.service.getCharacteristic(Characteristic.LockCurrentState));
   callback(null, this.service.getCharacteristic(Characteristic.LockCurrentState) == Characteristic.LockTargetState.SECURED);
 }
   
 FakeAccessory.prototype.setState = function(state, callback) {
-  this.service.setCharacteristic(Characteristic.LockCurrentState, state);
-  //var lockitronState = (state == Characteristic.LockTargetState.SECURED) ? "lock" : "unlock";
+  this.service
+      .setCharacteristic(Characteristic.LockCurrentState, state);
 
   this.log("Set state to %s", state);
+  callback(null);
 }
 
 FakeAccessory.prototype.getServices = function() {
